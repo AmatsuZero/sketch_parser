@@ -1,17 +1,19 @@
 from zipfile import ZipFile
 from os import path
-import json
+import json as js
+from pprint import pprint
 
 testPath = "~/Desktop/test/sample.sketch"
 
 
-def json(file):
-    content = json.load(file)
-    print(content)
+def json(zip_file, file):
+    name = file.filename
+    content = js.loads(zip_file.read(name))
+    pprint(content)
 
 
-def png(file):
-    print(file)
+def png(zip_file, file):
+    pass
 
 
 handler = {
@@ -24,7 +26,7 @@ def unzip_sketch_file(name):
     sketch = ZipFile(name)
     for file in sketch.infolist():
         ext = path.splitext(file.filename)[1]
-        handler[ext](file)
+        handler[ext](sketch, file)
     sketch.close()
 
 
