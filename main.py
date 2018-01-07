@@ -1,19 +1,20 @@
 from zipfile import ZipFile
 from os import path
 import json as js
-from pprint import pprint
+from picture_hook import save_image
+from document_hook import DocumentObject
 
-testPath = "~/Desktop/test/sample.sketch"
+testPath = "./assets/sample.sketch"
 
 
 def json(zip_file, file):
-    name = file.filename
-    content = js.loads(zip_file.read(name))
-    pprint(content)
+    with zip_file.open(file, 'r') as JSON:
+        document = js.load(JSON, object_hook=DocumentObject)
 
 
 def png(zip_file, file):
-    pass
+    with zip_file.open(file, 'r') as pic:
+        save_image(pic)
 
 
 handler = {
